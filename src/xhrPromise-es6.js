@@ -1,4 +1,4 @@
-
+  
 /**
   @options {method, url, [
 ], [headers], [params]}
@@ -9,7 +9,7 @@ export function xhrPromise(options){
              var xhr = new XMLHttpRequest();
               xhr.open(options.method, options.url, true);
               xhr.responseType = options.responseType || "json";
-              xhr.onload = function () {
+              xhr.onload = function(){
                 if (this.status >= 200 && this.status < 300) {
                   resolve({
                     response: xhr.response,
@@ -22,7 +22,7 @@ export function xhrPromise(options){
                   });
                 }
               };
-              xhr.onerror = function () {
+              xhr.onerror = function(){
                 reject({
                   status: this.status,
                   statusText: xhr.statusText
@@ -30,7 +30,7 @@ export function xhrPromise(options){
               };
               /**Headers and params are optional*/
               if (options.headers) {
-                Object.keys(options.headers).forEach(function (key) {
+                Object.keys(options.headers).forEach((key)=>{
                   xhr.setRequestHeader(key, options.headers[key]);
                 });
               }
@@ -38,7 +38,7 @@ export function xhrPromise(options){
               /** We'll need to stringify if we've been given an object
                If we have a string, this is skipped.*/
               if (params && typeof params === 'object') {
-                params = Object.keys(params).map(function (key) {
+                params = Object.keys(params).map((key)=>{
                   return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
                 }).join('&');
               }
