@@ -1,4 +1,3 @@
-  
 /**
   @options {method, url, [
 ], [headers], [params]}
