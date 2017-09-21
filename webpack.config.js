@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: ['babel-polyfill','./src/xhrPromise-es6.js'],
+  entry: ['babel-polyfill','./src/xhrPromise-es6.js','./src/eventEmitter.js'],
   devtool: 'source-map',
   output: {
     filename: 'bundle.js',

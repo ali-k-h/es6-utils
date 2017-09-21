@@ -1,39 +1,56 @@
 
 export class EventEmitter{
   constructor(){
-    this.listeners = new Map()
-
+    this.listeners = new Map();
   }
   _isFunction(fn){
-    return typeof fn==='function' || false
+    return typeof fn==='function' || false;
   }
   addListener(eventname, callback){
-    if(!this.listeners.get(eventname)) this.set(eventname, [])
-    this.get(eventname).push(callback)
+    if(typeof eventname !== 'string' || !this._isFunction(callback) ){
+      return false;
+    }
+    if(!this.listeners.get(eventname)) {
+      this.listeners.set(eventname, []);
+    }
+    this.listeners.get(eventname).push(callback);
+    return true;
   }
-  removeListener(eventname, callback){
-    let listeners = this.listeners.get(eventname)
-    let index
-    if(!listeners || listeners.length === 0) return false
 
+  removeListener(eventname, callback){
+    if(typeof eventname !== 'string' || !this._isFunction(callback) ){
+      return false;
+    }
+    let listeners = this.listeners.get(eventname);
+    let index;
+    if(!listeners || listeners.length === 0) {
+      return false;
+    }
     index = listeners.reduce((i, listener, index)=>{
-      return _isFunction(listener) && listener === callback?i=index:i
-    },-1)
+      return this._isFunction(listener) && listener === callback?i=index:i;
+    },-1);
 
     if (index > -1){
-      listeners.slice(index,1)
-      this.listeners.set(eventname).push(listeners)
-      return true
+      let _listeners = listeners.splice(index,1);
+      this.listeners.set(_listeners);
+      return true;
     }
-    return false
+    else{
+      return false;
+    }
   }
 
   emit(eventname, ...args){
-    let listeners = this.listeners.get(eventname)
-    if(!listeners || !listeners.length === 0) return false
+    if(typeof eventname !== 'string'){
+      return false;
+    }
+    let listeners = this.listeners.get(eventname);
+    if(!listeners || !listeners.length === 0){
+      return false;
+    }
     listeners.forEach((listener)=>{
-      listener(...args)
-      return true
+      listener(...args);
     })
+    return true;
   }
 }
